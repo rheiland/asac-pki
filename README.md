@@ -10,4 +10,6 @@ To run:
 .../src$ cd bin  
 .../src/bin$ java base.SimulationWorker &
 .../src/bin$ java base.SimulationManager ../../pki1.conf
+
+When the simulation has finished, results will be in the output file, e.g. latest.tsv, specified in pki1.conf.
 ```
