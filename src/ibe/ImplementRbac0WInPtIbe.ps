@@ -1,0 +1,383 @@
+%!PS-Adobe-
+%%DocumentFonts: Courier Courier-Bold
+% PSP prologue file, version 1.0
+%
+% Copyright (c) 1989 Eric J. Kostelich
+%
+save
+/PSPstart {} def
+/p {	3 1 roll
+	Linespacing mul Textoffset exch sub
+	exch Textwidth Leftmargin add mul Leftmargin add
+	exch moveto show 
+} def
+
+/Setbold { /Courier-Bold findfont Boldsize scalefont setfont } def
+/SF { /Courier findfont Pointsize scalefont setfont } def
+%
+% (string) H  - for placing boldface titles
+%
+/H { Setbold Leftmargin Titleoffset moveto show SF } def
+%
+%  Normal mode - use titles, 54 lines/page
+%
+/Usual {/Leftmargin 66 def  /Textoffset 708 def /Titleoffset 738 def
+	/Boldsize 12 def  /Pointsize 10 def /Linespacing 12 def
+	/Textwidth 480 def /Rotatemode false def
+} def
+%
+%  Plain mode - no titles, 66 lines/page
+%
+/Plain {/Leftmargin 72 def  /Textoffset 756 def
+	/Boldsize 14 def  /Pointsize 9 def /Linespacing 11 def
+	/Textwidth 480 def /Rotatemode false def
+} def
+%
+% Rotated, two-column mode - 65 lines/column
+%
+/Rotated { /Rotatemode true def } def
+/Rotatepage { 612 0 translate 90 rotate
+	/Leftmargin 36 def /Textoffset 550 def /Titleoffset 568 def
+	/Boldsize 12 def  /Pointsize 7 def  /Linespacing 8 def
+	/Textwidth 336 def
+} def
+/Startpage { Rotatemode {Rotatepage} if SF } def
+/Endpage {showpage} def
+/PSPend {restore} def
+%%EndPrologue
+Rotated
+%%Page 1 1
+Startpage
+(ImplementRbac0WInPtIbe.java                                       Wed Apr 27 13:25:44 2016
+       1)H
+0 0(package ibe;)p
+0 2(import java.util.Collections;)p
+0 3(import java.util.LinkedHashSet;)p
+0 4(import java.util.Set;)p
+0 6(import base.Action;)p
+0 7(import base.Implementation;)p
+0 8(import base.SimLogger.Log;)p
+0 9(import base.Simulation;)p
+0 10(import base.State;)p
+0 11(import base.WorkloadState;)p
+0 13(import ibe.PtIbeState.PtKeyRing;)p
+0 15(public class ImplementRbac0WInPtIbe extends Implementation {)p
+0 17(    public static final String SU = "SU";)p
+0 18(    static final String TRUE = PtIbe.TRUE;)p
+0 19(    static final String FALSE = PtIbe.FALSE;)p
+0 21(    public static String schemeName\(\) {)p
+0 22(        return "Model 2";)p
+0 23(    })p
+0 25(    @Override)p
+0 26(    public void init\(WorkloadState wState\) {)p
+0 27(        if\(!\(wState instanceof Rbac0WState\)\) {)p
+0 28(            throw new RuntimeException\("Workload state of incorrect type: " + wS)p
+0 29(tate.getClass\(\).getName\(\)\);)p
+0 30(        })p
+0 31(        wScheme = new Rbac0W\(wState\);)p
+0 32(        // Set workload's system as well so it can insert and remove actors)p
+0 33(        wScheme.sys = sys;)p
+0 34(        scheme = new PtIbe\(stateMap\(wState\)\);)p
+0 35(    })p
+0 37(    @Override)p
+0 38(    public State stateMap\(WorkloadState wState\) {)p
+0 39(        if\(!\(wState instanceof Rbac0WState\)\) {)p
+0 40(            throw new RuntimeException\("Workload state of incorrect type: " + wS)p
+0 41(tate.getClass\(\).getName\(\)\);)p
+0 42(        })p
+0 44(        Rbac0WState rState = \(Rbac0WState\) wState;)p
+0 45(        PtIbeState iState = new PtIbeState\(\);)p
+0 47(        iState.addIbeKey\(SU, SU\);)p
+0 49(        for\(String u : rState.U\) {)p
+0 50(            Log.v\("Mapping user " + u + " to initial PT-IBE state"\);)p
+0 51(            iState.addIbeKey\(u, u\);)p
+0 52(        })p
+0 54(        for\(String p : rState.P\) {)p
+0 55(            Log.v\("Mapping file " + p + " to initial PT-IBE state"\);)p
+0 56(            iState.addFile\(p\);)p
+0 57(            iState.addKey\(p, SU, true, true, 1\);)p
+0 58(        })p
+0 60(        for\(String r : rState.R\) {)p
+0 61(            Log.v\("Mapping role " + r + " to initial PT-IBE state"\);)p
+0 62(            iState.addIbeKey\(SU, r\);)p
+0 63(        })p
+1 0(        for\(String u : rState.UA.keySet\(\)\) {)p
+1 1(            for\(String r : rState.UA.get\(u\)\) {)p
+1 2(                Log.v\("Giving key " + r + " to user " + u + " in initial PT-IBE)p
+1 3(state"\);)p
+1 4(                iState.addIbeKey\(u, r\);)p
+1 5(            })p
+1 6(        })p
+1 8(        for\(String p : rState.PA.keySet\(\)\) {)p
+1 9(            for\(String r : rState.PA.get\(p\)\) {)p
+1 10(                // TODO this assumes only read permission)p
+1 11(                String op = "r";)p
+1 12(                boolean read = \(op.equals\("r"\) || op.equals\("rw"\)\);)p
+1 13(                boolean write = \(op.equals\("w"\) || op.equals\("rw"\)\);)p
+1 15(                Log.v\("Assigning " + p + " to role " + r + " in initial PT-IBE s)p
+1 16(tate"\);)p
+1 17(                iState.addKey\(p, r, read, write, 1\);)p
+1 18(            })p
+1 19(        })p
+1 21(        return iState;)p
+1 22(    })p
+1 24(    @Override)p
+1 25(    public void action\(Action a\) {)p
+1 26(        PtIbe ibe = \(PtIbe\) scheme;)p
+1 27(        PtIbeState iState = \(PtIbeState\) ibe.state;)p
+1 28(        super.action\(a\);)p
+1 30(        Log.d\("Converting action " + a\);)p
+1 32(        String actor = a.params[0];)p
+1 34(        switch\(a.name\) {)p
+1 35(            case "addU": {)p
+1 36(                String u = a.params[1];)p
+1 37(                ibe.action\(new Action\("addIbeKey", new String[] {actor, u, u}\)\);)p
+1 38(                break;)p
+1 39(            })p
+1 40(            case "delU": {)p
+1 41(                String u = a.params[1];)p
+1 42(                // This will throw some exception if the user doesn't exist.)p
+1 43(                Set<String> roles = new LinkedHashSet<String>\(iState.ibeKeys.get)p
+1 44(\(u\)\);)p
+1 45(                roles.remove\(u\);)p
+1 46(                for\(String r : roles\) {)p
+1 47(                    Log.v\("Removing " + u + " from role " + r\);)p
+1 48(                    ibe.action\(new Action\("deleteIbeKey", new String[] {actor, u)p
+1 49(, r}\)\);)p
+1 50(                })p
+1 52(                Set<String> files = new LinkedHashSet<String>\(\);)p
+1 53(                // find all f where <f, r, ?, ?, ?> in keys for any r in roles)p
+1 54(                for\(String f : iState.keys.keySet\(\)\) {)p
+1 55(                    if\(!Collections.disjoint\(iState.keys.get\(f\).keySet\(\), roles\))p
+1 56(\) {)p
+1 57(                        files.add\(f\);)p
+1 58(                    })p
+1 59(                })p
+1 60(                for\(String f : files\) {)p
+1 61(                    ibe.action\(new Action\("fakeSymKeyGen", new String[] {actor}\))p
+1 62(\);)p
+1 64(                    roles = new LinkedHashSet<String>\(iState.keys.get\(f\).keySet\()p
+Endpage
+%%Page 3 2
+Startpage
+(ImplementRbac0WInPtIbe.java                                       Wed Apr 27 13:25:44 2016
+       2)H
+0 0(\)\);)p
+0 1(                    for\(String q : roles\) {)p
+0 2(                        String read = iState.keys.get\(f\).get\(q\).read ? TRUE : FA)p
+0 3(LSE;)p
+0 4(                        String write = iState.keys.get\(f\).get\(q\).write ? TRUE :)p
+0 5(FALSE;)p
+0 6(                        String v = Integer.toString\(Collections.max\(iState.keys.)p
+0 7(get\(f\).get\(q\).versions\) + 1\);)p
+0 8(                        ibe.action\(new Action\("addKey", new String[] {actor, f,)p
+0 9(q, read, write, v}\)\);)p
+0 10(                    })p
+0 11(                })p
+0 13(                ibe.action\(new Action\("deleteIbeUser", new String[] {actor, u}\)\))p
+0 14(;)p
+0 15(                break;)p
+0 16(            })p
+0 17(            case "addR": {)p
+0 18(                String r = a.params[1];)p
+0 19(                ibe.action\(new Action\("addIbeKey", new String[] {actor, SU, r}\)\))p
+0 20(;)p
+0 21(                break;)p
+0 22(            })p
+0 23(            case "delR": {)p
+0 24(                String r = a.params[1];)p
+0 25(                Set<String> files = new LinkedHashSet<String>\(\);)p
+0 26(                // find all f where <f, r, ?, ?, ?> in keys)p
+0 27(                for\(String f : iState.keys.keySet\(\)\) {)p
+0 28(                    if\(iState.keys.get\(f\).containsKey\(r\)\) {)p
+0 29(                        files.add\(f\);)p
+0 30(                    })p
+0 31(                })p
+0 32(                for\(String f : files\) {)p
+0 33(                    ibe.action\(new Action\("fakeSymKeyGen", new String[] {actor}\))p
+0 34(\);)p
+0 36(                    Set<Integer> versions = new LinkedHashSet<Integer>\(iState.ke)p
+0 37(ys.get\(f\).get\(r\).versions\);)p
+0 38(                    for\(Integer v : versions\) {)p
+0 39(                        ibe.action\(new Action\("deleteKey", new String[] {actor,)p
+0 40(f, r, Integer.toString\(v\)}\)\);)p
+0 41(                    })p
+0 42(                    Set<String> roles = new LinkedHashSet<String>\(iState.keys.ge)p
+0 43(t\(f\).keySet\(\)\);)p
+0 44(                    for\(String q : roles\) {)p
+0 45(                        String read = iState.keys.get\(f\).get\(q\).read ? TRUE : FA)p
+0 46(LSE;)p
+0 47(                        String write = iState.keys.get\(f\).get\(q\).write ? TRUE :)p
+0 48(FALSE;)p
+0 49(                        String v = Integer.toString\(Collections.max\(iState.keys.)p
+0 50(get\(f\).get\(q\).versions\) + 1\);)p
+0 51(                        ibe.action\(new Action\("addKey", new String[] {actor, f,)p
+0 52(q, read, write, v}\)\);)p
+0 53(                    })p
+0 54(                })p
+0 55(                ibe.action\(new Action\("deleteIbeKey", new String[] {actor, SU, r)p
+0 56(}\)\);)p
+0 57(                break;)p
+0 58(            })p
+0 59(            case "addP": {)p
+0 60(                String f = a.params[1];)p
+0 61(                ibe.action\(new Action\("addFile", new String[] {actor, f}\)\);)p
+0 62(                ibe.action\(new Action\("addKey", new String[] {actor, f, SU, TRUE)p
+0 63(, TRUE, Integer.toString\(1\)}\)\);)p
+0 64(                break;)p
+1 0(            })p
+1 1(            case "delP": {)p
+1 2(                String f = a.params[1];)p
+1 3(                Set<String> roles = new LinkedHashSet<String>\(iState.keys.get\(f\))p
+1 4(.keySet\(\)\);)p
+1 5(                for\(String r : roles\) {)p
+1 6(                    Set<Integer> versions = new LinkedHashSet<Integer>\(iState.ke)p
+1 7(ys.get\(f\).get\(r\).versions\);)p
+1 8(                    for\(Integer v : versions\) {)p
+1 9(                        ibe.action\(new Action\("deleteKey", new String[] {actor,)p
+1 10(f, r, Integer.toString\(v\)}\)\);)p
+1 11(                    })p
+1 12(                })p
+1 13(                ibe.action\(new Action\("deleteFile", new String[] {actor, f}\)\);)p
+1 14(                break;)p
+1 15(            })p
+1 16(            case "assignUser": {)p
+1 17(                String u = a.params[1];)p
+1 18(                String r = a.params[2];)p
+1 19(                ibe.action\(new Action\("addIbeKey", new String[] {actor, u, r}\)\);)p
+1 20(                break;)p
+1 21(            })p
+1 22(            case "revokeUser": {)p
+1 23(                String u = a.params[1];)p
+1 24(                String r = a.params[2];)p
+1 25(                ibe.action\(new Action\("deleteIbeKey", new String[] {actor, u, r})p
+1 26(\)\);)p
+1 28(                Set<String> files = new LinkedHashSet<String>\(\);)p
+1 29(                // find all f where <f, r, ?, ?, ?> in keys)p
+1 30(                for\(String f : iState.keys.keySet\(\)\) {)p
+1 31(                    if\(iState.keys.get\(f\).containsKey\(r\)\) {)p
+1 32(                        files.add\(f\);)p
+1 33(                    })p
+1 34(                })p
+1 35(                for\(String f : files\) {)p
+1 36(                    ibe.action\(new Action\("fakeSymKeyGen", new String[] {actor}\))p
+1 37(\);)p
+1 39(                    Set<String> roles = new LinkedHashSet<String>\(iState.keys.ge)p
+1 40(t\(f\).keySet\(\)\);)p
+1 41(                    for\(String q : roles\) {)p
+1 42(                        String read = iState.keys.get\(f\).get\(q\).read ? TRUE : FA)p
+1 43(LSE;)p
+1 44(                        String write = iState.keys.get\(f\).get\(q\).write ? TRUE :)p
+1 45(FALSE;)p
+1 46(                        String v = Integer.toString\(Collections.max\(iState.keys.)p
+1 47(get\(f\).get\(q\).versions\) + 1\);)p
+1 48(                        ibe.action\(new Action\("addKey", new String[] {actor, f,)p
+1 49(q, read, write, v}\)\);)p
+1 50(                    })p
+1 51(                })p
+1 53(                break;)p
+1 54(            })p
+1 55(            case "assignPermission": {)p
+1 56(                String f = a.params[1];)p
+1 57(                String r = a.params[2];)p
+1 58(                // TODO for the time being, this always assigns read)p
+1 59(                String op = "r";)p
+1 61(                boolean read = \(op.equals\("r"\) || op.equals\("rw"\)\);)p
+1 62(                boolean write = \(op.equals\("w"\) || op.equals\("rw"\)\);)p
+1 64(                if\(iState.keys.get\(f\).containsKey\(r\)\) {)p
+Endpage
+%%Page 5 3
+Startpage
+(ImplementRbac0WInPtIbe.java                                       Wed Apr 27 13:25:44 2016
+       3)H
+0 0(                    read = read || iState.keys.get\(f\).get\(r\).read;)p
+0 1(                    write = write || iState.keys.get\(f\).get\(r\).write;)p
+0 2(                    String sRead = read ? TRUE : FALSE;)p
+0 3(                    String sWrite = write ? TRUE : FALSE;)p
+0 4(                    ibe.action\(new Action\("editKeys", new String[] {actor, f, r,)p
+0 5( sRead, sWrite}\)\);)p
+0 6(                } else {)p
+0 7(                    Set<Integer> versions = new LinkedHashSet<Integer>\(iState.ke)p
+0 8(ys.get\(f\).get\(SU\).versions\);)p
+0 9(                    for\(Integer v : versions\) {)p
+0 10(                        String sRead = read ? TRUE : FALSE;)p
+0 11(                        String sWrite = write ? TRUE : FALSE;)p
+0 12(                        String sV = Integer.toString\(v\);)p
+0 13(                        ibe.action\(new Action\("addKey", new String[] {actor, f,)p
+0 14(r, sRead, sWrite, sV}\)\);)p
+0 15(                    })p
+0 16(                })p
+0 17(                break;)p
+0 18(            })p
+0 19(            case "revokePermission": {)p
+0 20(                String f = a.params[1];)p
+0 21(                String r = a.params[2];)p
+0 22(                // TODO for the time being, this always revokes both read, write)p
+0 23(                String op = "rw";)p
+0 25(                boolean read = \(op.equals\("r"\) || op.equals\("rw"\)\);)p
+0 26(                boolean write = \(op.equals\("w"\) || op.equals\("rw"\)\);)p
+0 28(                PtKeyRing kr = iState.keys.get\(f\).get\(r\);)p
+0 30(                boolean remainRead = kr.read && !read;)p
+0 31(                boolean remainWrite = kr.write && !write;)p
+0 33(                if\(remainRead || remainWrite\) {)p
+0 34(                    String sRead = remainRead ? TRUE : FALSE;)p
+0 35(                    String sWrite = remainWrite ? TRUE : FALSE;)p
+0 36(                    ibe.action\(new Action\("editKeys", new String[] {actor, f, r,)p
+0 37( sRead, sWrite}\)\);)p
+0 38(                } else {)p
+0 39(                    ibe.action\(new Action\("fakeSymKeyGen", new String[] {actor}\))p
+0 40(\);)p
+0 42(                    Set<Integer> versions = new LinkedHashSet<Integer>\(kr.versio)p
+0 43(ns\);)p
+0 44(                    for\(Integer v : versions\) {)p
+0 45(                        ibe.action\(new Action\("deleteKey", new String[] {actor,)p
+0 46(f, r, Integer.toString\(v\)}\)\);)p
+0 47(                    })p
+0 48(                    Set<String> roles = new LinkedHashSet<String>\(iState.keys.ge)p
+0 49(t\(f\).keySet\(\)\);)p
+0 50(                    for\(String q : roles\) {)p
+0 51(                        String sRead = iState.keys.get\(f\).get\(q\).read ? TRUE : F)p
+0 52(ALSE;)p
+0 53(                        String sWrite = iState.keys.get\(f\).get\(q\).write ? TRUE :)p
+0 54( FALSE;)p
+0 55(                        String v = Integer.toString\(Collections.max\(iState.keys.)p
+0 56(get\(f\).get\(q\).versions\) + 1\);)p
+0 57(                        ibe.action\(new Action\("addKey", new String[] {actor, f,)p
+0 58(q, sRead, sWrite, v}\)\);)p
+0 59(                    })p
+0 60(                })p
+0 62(                break;)p
+0 63(            })p
+0 64(            case "auth": {)p
+1 0(                String u = a.params[1];)p
+1 1(                String f = a.params[2];)p
+1 2(                // TODO for the time being, this assumes 50% r, 50% rw)p
+1 3(                String op = "r";)p
+1 4(                if\(Simulation.rand.nextDouble\(\) > 0.5\) op = "rw";)p
+1 6(                boolean read = \(op.equals\("r"\) || op.equals\("rw"\)\);)p
+1 7(                boolean write = \(op.equals\("w"\) || op.equals\("rw"\)\);)p
+1 9(                if\(write\) {)p
+1 10(                    ibe.action\(new Action\(true, "write", new String[] {actor, u,)p
+1 11( f}\)\);)p
+1 12(                    // Somewhat of a cheat, assumes that all ids have the same s)p
+1 13(et of keys \(no role)p
+1 14(                    // has been left behind without having its keys deleted\))p
+1 15(                    String v = Integer.toString\(Collections.max\(iState.keys.get\()p
+1 16(f\).get\(SU\).versions\)\);)p
+1 17(                    ibe.action\(new Action\("reencryptFile", new String[] {actor,)p
+1 18(f, v}\)\);)p
+1 19(                } else if\(read\) {)p
+1 20(                    ibe.action\(new Action\(true, "read", new String[] {actor, u,)p
+1 21(f}\)\);)p
+1 22(                })p
+1 24(                break;)p
+1 25(            })p
+1 26(            default:)p
+1 27(                throw new RuntimeException\("Asked to convert unsupported action)p
+1 28(" + a\);)p
+1 29(        })p
+1 30(    })p
+1 32(})p
+Endpage
+%%Trailer
+PSPend

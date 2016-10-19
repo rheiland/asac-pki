@@ -1,0 +1,20 @@
+@assignment role-permission
+@dimension role {R0,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14,R15}
+@dimension permission {p_allowLateWithdrawal-Roster,p_approveGradeChange-GradeBook,p_approveLateWithdrawal-Roster,p_assignGrade-GradeBook,p_authorizeEquipmentPurchase-DeptAcct,p_authorizeExpenditure-CollegeAcct,p_authorizeExpenditure-UniversityAcct,p_create-ComputerAccount,p_enroll-EmployeeHealthInsur,p_enroll-StudentHealthInsur,p_make-Employee-FacilitiesCommittee,p_make-Employee-FullTimeEmployee,p_make-Faculty-FacilitiesDirector,p_make-Faculty-GradAdmissionsCommittee,p_make-Faculty-GradCommittee,p_make-Faculty-HonorsPgmDirector,p_make-Faculty-QualExamCommittee,p_make-Grad-GradStudOfficer,p_make-Grad-TA,p_make-Grad-null,p_make-GradCommittee-QualExamCommitteeHead,p_make-GradStudOfficer-GradCommittee,p_make-Professor-Dean,p_make-Professor-DeptChair,p_make-Professor-Provost,p_make-Staff-AdmissionsOfficer,p_make-Staff-AsstForStudentAffairs,p_make-Student-RA,p_make-Undergrad-Grader,p_make-Undergrad-HonorsStudent,p_make-Undergrad-UndergradPermittedGradClass,p_make-Undergrad-null,p_make-true-AssistantProf,p_make-true-AssociateProf,p_make-true-DeanOfAdmissions,p_make-true-Grad,p_make-true-Lecturer,p_make-true-Professor,p_make-true-Staff,p_make-true-Undergrad,p_modify-DeptBudget,p_obtain-EmployeeParkingPermit,p_obtain-StudentParkingPermit,p_pay-Tuition,p_register-Course,p_register-GradClass,p_register-UndergradClass,p_register-UndergradHonorsClass,p_reserveRoom-RoomSchedule,p_reviseGrade-GradeBook,p_submitGradeChange-GradeBook,p_submitGrades-GradeBook,p_viewGrade-GradeBook,p_withdraw-GradClass,p_withdraw-UndergradClass,p_withdraw-UndergradHonorsClass}
+@matrix
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,0,0,0,0,1,0,1,0
+0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,0,0,0,0,1,0,1,1
+0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,1,1,1,1
+0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,0,0
+0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0,1,1,0,0
+0,0,0,1,0,0,0,0,1,0,1,0,1,1,1,1,1,1,1,0,1,1,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,1,1,1,0,1,0,0,1,0,1,0,1,1,1,1,1,1,1,0,1,1,0,1,0,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,1,1,1,0,1,1,0,1,0,1,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0
+0,1,1,1,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0

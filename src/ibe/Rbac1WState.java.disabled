@@ -1,0 +1,179 @@
+package ibe;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import base.IAccessW;
+import base.InvalidMeasureException;
+import base.Property;
+import base.WorkloadState;
+
+public class Rbac1WState extends Rbac0WState {
+    private static final long serialVersionUID = 0xFA760A7L;
+
+    protected HashSet<RolePair> RH = new HashSet<RolePair>();
+
+    @Override
+    public Set<Property> getMeasurables() {
+        HashSet<Property> ret = new HashSet<Property>();
+        ret.add(new Property(this, "RH", new String[0]));
+        ret.addAll(super.getMeasurables());
+        return ret;
+    }
+
+    @Override
+    public boolean isMeasurable(Property p) {
+        Property qTest = new Property(this, "__test", new String[0]);
+        if(!qTest.matchQualifier(p)) {
+            return false;
+        }
+        switch(p.name) {
+            case "RH":
+                return true;
+            case "sizeof":
+                switch(p.params.get(0)) {
+                    case "RH":
+                        return true;
+                }
+        }
+        return super.isMeasurable(p);
+    }
+
+    @Override
+    public Object getCurMeasure(Property p) {
+        if(super.isMeasurable(p)) {
+            return super.getCurMeasure(p);
+        }
+        Property qTest = new Property(this, "__test", new String[0]);
+        if(!qTest.matchQualifier(p)) {
+            throw new InvalidMeasureException(p);
+        }
+        switch(p.name) {
+            case "RH":
+                return RH;
+            case "sizeof":
+                switch(p.params.get(0)) {
+                    case "RH":
+                        return 2 * RH.size();
+                    case "ALL":
+                        return (int)super.getCurMeasure(p) + 2 * RH.size();
+                }
+        }
+        throw new InvalidMeasureException(p);
+    }
+
+    @Override
+    public WorkloadState createCopy() {
+        Rbac1WState ret = new Rbac1WState();
+        ret.copyIn(this);
+        return ret;
+    }
+
+    public void copyIn(Rbac1WState old) {
+        super.copyIn(old);
+        for(RolePair pair : old.RH) {
+            addInheritance(pair.seniorRole, pair.juniorRole);
+        }
+    }
+
+    public void addInheritance(String seniorRole, String juniorRole) {
+        RolePair pair = new RolePair(seniorRole, juniorRole);
+        if(!RH.contains(pair)) {
+            RH.add(pair);
+            incrementAccessIO(0, 2);
+        }
+    }
+
+    public IAccessW<RolePair> getRH() {
+        return new IAccessW<RolePair>(RH, this, 1);
+    }
+
+    public void deleteInheritence(String seniorRole, String juniorRole) {
+        for(RolePair pair: RH) {
+            if(pair.seniorRole.equals(seniorRole) && pair.juniorRole.equals(juniorRole)) {
+                incrementAccessIO(0, 2);
+                RH.remove(pair);
+            }
+        }
+    }
+
+    public HashSet<String> findAllSeniors(String g, HashSet<String> ret) {
+        for(RolePair rg : RH) {
+            String r = rg.seniorRole;
+            if(rg.juniorRole.equals(g)) {
+                ret.add(r);
+                return findAllSeniors(r, ret);
+            }
+        }
+
+        return ret;
+    }
+
+    public HashSet<String> findAllJuniors(String g, HashSet<String> ret) {
+        for(RolePair rg : RH) {
+            incrementAccessIO(0, 1);
+            String r = rg.juniorRole;
+            if(rg.seniorRole.equals(g)) {
+                ret.add(r);
+                return findAllSeniors(r, ret);
+            }
+        }
+
+        return ret;
+    }
+
+    public HashSet<String> findRoleChain(String r) {
+        HashSet<String> ret = new HashSet<String>();
+        ret = findAllSeniors(r, ret);
+        ret = findAllJuniors(r, ret);
+        return ret;
+    }
+
+    public static class RolePair {
+        public String seniorRole;
+        public String juniorRole;
+
+        public RolePair(String seniorRole, String juniorRole) {
+            this.seniorRole = seniorRole;
+            this.juniorRole = juniorRole;
+        }
+
+        public String toString() {
+            return "(" + seniorRole + " >= " + juniorRole + ")";
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result
+                     + ((juniorRole == null) ? 0 : juniorRole.hashCode());
+            result = prime * result
+                     + ((seniorRole == null) ? 0 : seniorRole.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            RolePair other = (RolePair) obj;
+            if (juniorRole == null) {
+                if (other.juniorRole != null)
+                    return false;
+            } else if (!juniorRole.equals(other.juniorRole))
+                return false;
+            if (seniorRole == null) {
+                if (other.seniorRole != null)
+                    return false;
+            } else if (!seniorRole.equals(other.seniorRole))
+                return false;
+            return true;
+        }
+    }
+}
+
