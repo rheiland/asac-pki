@@ -22,7 +22,7 @@ public class SimulationManager {
 
 	private synchronized void appendResult(String s) {
 		ret += s;
-		java.lang.System.out.print("SimulationManager.appendResult:  " + s);
+//		java.lang.System.out.print("(rwh)SimulationManager.appendResult:  " + s);
 	}
 
 	/**

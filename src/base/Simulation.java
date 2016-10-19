@@ -100,7 +100,7 @@ public class Simulation {
 	 * To run another after this, reset is required.
 	 */
 	public void run() {
-        java.lang.System.out.println("(rwh)Simulation.run(): changing params.timelimitPerSim to be 42");
+//        java.lang.System.out.println("(rwh)Simulation.run(): changing params.timelimitPerSim to be 42");
 		params.timelimitPerSimulation = 37;   // 42;
 		while(time < params.timelimitPerSimulation) {
 			boolean someoneStopped = false;

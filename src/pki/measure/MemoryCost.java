@@ -21,7 +21,7 @@ public class MemoryCost extends Measure {
     public MemoryCost() {
 //        curMeasurement = new IntSumCost();
         curMeasurement = new IntReplaceCost();
-		java.lang.System.out.println("-------------(rwh)MemoryCost constr:  " + curMeasurement.getCostStr() );
+//		java.lang.System.out.println("-------------(rwh)MemoryCost constr:  " + curMeasurement.getCostStr() );
     }
 
     @Override

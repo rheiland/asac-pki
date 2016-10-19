@@ -19,7 +19,7 @@ import costs.IntReplaceCost;
 public class CADepthCost extends Measure {
     public CADepthCost() {
         curMeasurement = new IntReplaceCost();
-		java.lang.System.out.println("(rwh)CADepthCost:  " + curMeasurement.getCostStr() );
+//		java.lang.System.out.println("(rwh)CADepthCost:  " + curMeasurement.getCostStr() );
     }
 
     @Override
