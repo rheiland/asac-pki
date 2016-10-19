@@ -13,3 +13,5 @@ To run:
 
 When the simulation has finished, results will be in the output file, e.g. latest.tsv, specified in pki1.conf.
 ```
+Reference:  
+http://hdl.handle.net/2022/21038
