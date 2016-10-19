@@ -72,7 +72,7 @@ public class SimulationManager {
 			int i = 0;
 			int addrIndex = 0;
 			while(i < driver.getNumRuns()) {
-		        java.lang.System.out.println("SimulationManager:  (rwh) Creating simulation parameter for run " + i);
+		        java.lang.System.out.println("dbg> SimulationManager:  Creating simulation parameter for run " + i);
 				SimLogger.log(Level.FINE, "Creating simulation parameter for run " + i);
 				Params param = driver.generateSimulation();
 				param.runIndex = i;

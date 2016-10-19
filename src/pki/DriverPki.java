@@ -50,7 +50,7 @@ public class DriverPki extends Driver {
         param.caDepth = Simulation.rand.nextInt(5-2 + 1) + 2;   // random.nextInt(max - min + 1) + min
 //        Simulation.caDepth = param.caDepth; 
 //        Simulation.caDepth = Simulation.rand.nextInt(5-2 + 1) + 2; 
-        java.lang.System.out.println("==================(rwh)DriverPki: param.caDepth = " + param.caDepth);
+        java.lang.System.out.println("dbg>==================DriverPki: param.caDepth = " + param.caDepth);
 
         //NewPcStarter starter = new NewPcStarter(numrev, numauth);
         param.starter = new StarterPki();
